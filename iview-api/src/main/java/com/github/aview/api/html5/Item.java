@@ -55,7 +55,8 @@ public class Item implements Episode {
     private String              link;
     @Element
     private String              title;
-    @Element
+    // 0.9.2
+    @Element(name = "subtitle", required = false)
     private String              subtitle;
     @Element(required = false)
     private Integer             series;
@@ -145,11 +146,11 @@ public class Item implements Episode {
 
     @Override
     public String getEpisodeTitle() {
-        return subtitle;
+        return Strings.nullToEmpty(subtitle);
     }
 
     public String getSubtitle() {
-        return subtitle;
+    	return Strings.nullToEmpty(subtitle);
     }
 
     public Integer getSeries() {
@@ -312,7 +313,7 @@ public class Item implements Episode {
 	// Calculated from title and subtitle
 	@Override
 	public String getSeriesTitle() {
-		if (title.contains(subtitle)) {
+		if (subtitle != null && title.contains(subtitle)) {
 			return title.substring(0, title.lastIndexOf(subtitle));
 		} else {
 			return title;
